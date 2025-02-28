@@ -63,7 +63,25 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }, {
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.text()) // Convert response to text for debugging
+            .then(data => {
+                console.log("Server Response:", data); // Debugging log
+
+                if (data.toLowerCase().includes("success")) {
+                    document.getElementById("visitorForm").reset();
+                    document.getElementById("confirmationMessage").style.display = "block";
+                } else {
+                    alert("Error submitting form. Response from server: " + data);
+                    console.error("Server Error:", data);
+                }
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+                alert("Submission failed. Check console for error.");
+            });, {
                 method: 'POST',
                 
                 method: 'POST',
