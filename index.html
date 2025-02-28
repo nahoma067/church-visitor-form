@@ -1,4 +1,3 @@
-index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,11 +70,12 @@ index.html
             .then(data => {
                 console.log("Server Response:", data); // Debugging log
 
-                if (data.includes("success")) {
+                if (data.toLowerCase().includes("success")) {
                     document.getElementById("visitorForm").reset();
                     document.getElementById("confirmationMessage").style.display = "block";
                 } else {
-                    alert("Error submitting form. Check console for details.");
+                    alert("Error submitting form. Response from server: " + data);
+                    console.error("Server Error:", data);
                 }
             })
             .catch(error => {
