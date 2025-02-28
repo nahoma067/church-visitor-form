@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Church Visitor Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            width: 90%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to Our Church</h2>
+        <p>Please fill in your details</p>
+        <form id="visitorForm">
+            <input type="text" id="name" placeholder="Full Name" required><br>
+            <input type="text" id="phone" placeholder="Phone Number" required><br>
+            <input type="email" id="email" placeholder="Email (Optional)"><br>
+            <button type="button" onclick="submitForm()">Submit</button>
+        </form>
+        <p id="confirmationMessage" style="color: green; display: none;">Thank you for visiting! Your details have been recorded.</p>
+    </div>
+    <script>
+        function submitForm() {
+            let name = document.getElementById("name").value;
+            let phone = document.getElementById("phone").value;
+            let email = document.getElementById("email").value;
+
+            console.log("Submit button clicked"); // Debugging log
+
+            if (name === "" || phone === "") {
+                alert("Please enter your name and phone number.");
+                console.log("Validation failed: Missing name or phone");
+                return;
+            }
+
+            let formData = {
+                name: name,
+                phone: phone,
+                email: email
+            };
+
+            console.log("Sending data:", formData); // Debugging log
+
+            fetch('https://script.google.com/macros/s/AKfycbxsqfTHz3pSUvuNpgMLviqACIbP6bc_xvfYk0WX0xsQ516ak1fkZ1_MAcVf6e3Tw-6zLw/exec', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.text()) // Convert response to text for debugging
+            .then(data => {
+                console.log("Server Response:", data); // Debugging log
+
+                if (data.includes("success")) {
+                    document.getElementById("visitorForm").reset();
+                    document.getElementById("confirmationMessage").style.display = "block";
+                } else {
+                    alert("Error submitting form. Check console for details.");
+                }
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+                alert("Submission failed. Check console for error.");
+            });
+        }
+    </script>
+</body>
+</html>
