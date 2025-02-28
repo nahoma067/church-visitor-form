@@ -61,7 +61,11 @@
 
             fetch('https://script.google.com/macros/s/AKfycbyEJXWXOAmZiANf9kt-I_dx2ifwqlwrh7-rmzOR1OkOMFx7RCyfuquiX0zJGRCTyg20rA/exec', {
                 method: 'POST',
-                mode: 'no-cors', // This tells the browser to ignore CORS restrictions, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }, {
+                method: 'POST',
+                
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
