@@ -1,112 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Church Visitor Registration</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-        }
-        .container {
-            max-width: 400px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
-        }
-        input, button {
-            margin: 10px;
-            padding: 10px;
-            width: 90%;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Church Visitor Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+    }
+    input, button {
+      margin: 10px;
+      padding: 10px;
+      width: 90%;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Welcome to Our Church</h2>
-        <p>Please fill in your details</p>
-        <form id="visitorForm">
-            <input type="text" id="name" placeholder="Full Name" required><br>
-            <input type="text" id="phone" placeholder="Phone Number" required><br>
-            <input type="email" id="email" placeholder="Email (Optional)"><br>
-            <button type="button" onclick="submitForm()">Submit</button>
-        </form>
-        <p id="confirmationMessage" style="color: green; display: none;">Thank you for visiting! Your details have been recorded.</p>
-    </div>
-    <script>
-        function submitForm() {
-            let name = document.getElementById("name").value;
-            let phone = document.getElementById("phone").value;
-            let email = document.getElementById("email").value;
+  <div class="container">
+    <h2>Welcome to Our Church</h2>
+    <p>Please fill in your details</p>
+    <form id="visitorForm">
+      <input type="text" id="name" placeholder="Full Name" required><br>
+      <input type="text" id="phone" placeholder="Phone Number" required><br>
+      <input type="email" id="email" placeholder="Email (Optional)"><br>
+      <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+    <p id="confirmationMessage" style="color: green; display: none;">
+      Thank you for visiting! Your details have been recorded.
+    </p>
+  </div>
 
-            console.log("Submit button clicked"); // Debugging log
+  <script>
+    function submitForm() {
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const email = document.getElementById("email").value;
 
-            if (name === "" || phone === "") {
-                alert("Please enter your name and phone number.");
-                console.log("Validation failed: Missing name or phone");
-                return;
-            }
+      if (!name || !phone) {
+        alert("Please enter your name and phone number.");
+        return;
+      }
 
-            let formData = {
-                name: name,
-                phone: phone,
-                email: email
-            };
+      const formData = { name, phone, email };
 
-            console.log("Sending data:", formData); // Debugging log
-
-            fetch('https://script.google.com/macros/s/AKfycbyde_Curl5gwRO3nFGnldRDaOajReZJFjxwq0UQgdlj1TtDvlBa0VUoK-_NkvLeD2mMEw/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.text()) // Convert response to text for debugging
-            .then(data => {
-                console.log("Server Response:", data); // Debugging log
-
-                if (data.toLowerCase().includes("success")) {
-                    document.getElementById("visitorForm").reset();
-                    document.getElementById("confirmationMessage").style.display = "block";
-                } else {
-                    alert("Error submitting form. Response from server: " + data);
-                    console.error("Server Error:", data);
-                }
-            })
-            .catch(error => {
-                console.error('Fetch Error:', error);
-                alert("Submission failed. Check console for error.");
-            });, {
-                method: 'POST',
-                
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.text()) // Convert response to text for debugging
-            .then(data => {
-                console.log("Server Response:", data); // Debugging log
-
-                if (data.toLowerCase().includes("success")) {
-                    document.getElementById("visitorForm").reset();
-                    document.getElementById("confirmationMessage").style.display = "block";
-                } else {
-                    alert("Error submitting form. Response from server: " + data);
-                    console.error("Server Error:", data);
-                }
-            })
-            .catch(error => {
-                console.error('Fetch Error:', error);
-                alert("Submission failed. Check console for error.");
-            });
+      fetch("https://script.google.com/macros/s/AKfycbyde_Curl5gwRO3nFGnldRDaOajReZJFjxwq0UQgdlj1TtDvlBa0VUoK-_NkvLeD2mMEw/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log("Server response:", data);
+        if (data.toLowerCase().includes("success")) {
+          document.getElementById("visitorForm").reset();
+          document.getElementById("confirmationMessage").style.display = "block";
+        } else {
+          alert("Error submitting form. Server says: " + data);
         }
-    </script>
+      })
+      .catch(error => {
+        console.error("Fetch Error:", error);
+        alert("Submission failed. Check console for error.");
+      });
+    }
+  </script>
 </body>
 </html>
